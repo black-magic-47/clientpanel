@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Client } from '../../models/client';
 import { ClientService } from '../../services/client.service';
 import {SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-client',
