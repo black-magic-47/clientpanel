@@ -2,9 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import {
-  MatToolbarModule
-} from '@angular/material';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -18,7 +17,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -37,10 +36,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
   ],
   imports: [
     BrowserModule,
-    MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
