@@ -31,7 +31,7 @@ export class AddClientComponent implements OnInit {
   bodyMaxLength = 80;
 
   @ViewChild('clientForm') form: any;
-  constructor(private snotifyService: SnotifyService, private clientService: ClientService) { }
+  constructor(private snotifyService: SnotifyService, private clientService: ClientService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -61,6 +61,7 @@ export class AddClientComponent implements OnInit {
     if (valid) {
     this.clientService.addClient(value);
     this.snotifyService.success('New User Added', this.getConfig());
+    this.router.navigate(['/']);
     } else {
       this.snotifyService.error('Please fill the form correctly', this.getConfig());
     }
