@@ -21,6 +21,8 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { ClientService } from './services/client.service';
+import { AuthService } from './services/auth.service';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { ClientService } from './services/client.service';
   providers: [
     ClientService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
-    SnotifyService
+    SnotifyService,
+    AuthService,
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

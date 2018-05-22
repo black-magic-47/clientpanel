@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Client } from '../../models/client';
 import { ClientService } from '../../services/client.service';
+import { SettingsService } from '../../services/settings.service';
 import {SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
 import { Router} from '@angular/router';
 
@@ -31,9 +32,17 @@ export class AddClientComponent implements OnInit {
   bodyMaxLength = 80;
 
   @ViewChild('clientForm') form: any;
-  constructor(private snotifyService: SnotifyService, private clientService: ClientService, private router: Router) { }
+  constructor(private snotifyService: SnotifyService, private clientService: ClientService, private router: Router,
+    private settingService: SettingsService) { }
 
   ngOnInit() {
+    this.settingService.getSettings().subscribe(result => {
+      result.forEach( (value, index) => {
+        if (value.name === 'disableBalanceOnAdd') {
+          this.disableBalanceOnAdd = value.value;
+        }
+      });
+    });
   }
 
   getConfig(): SnotifyToastConfig {

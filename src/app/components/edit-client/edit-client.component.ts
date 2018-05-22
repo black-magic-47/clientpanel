@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../../models/client';
 import { ClientService } from '../../services/client.service';
+import { SettingsService } from '../../services/settings.service';
 import {SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 
@@ -33,12 +34,20 @@ export class EditClientComponent implements OnInit {
   titleMaxLength = 15;
   bodyMaxLength = 80;
   constructor(private router: Router, private route: ActivatedRoute,
-    private snotifyService: SnotifyService, private clientService: ClientService) { }
+    private snotifyService: SnotifyService, private clientService: ClientService,
+    private settingService: SettingsService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.clientService.getClient(this.id).subscribe( data => {
       this.client = data;
+    });
+    this.settingService.getSettings().subscribe(result => {
+      result.forEach( (value, index) => {
+        if (value.name === 'disableBalanceOnEdit') {
+          this.disableBalanceOnEdit = value.value;
+        }
+      });
     });
   }
 
