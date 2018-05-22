@@ -15,7 +15,7 @@
           <li *ngIf="showRegister" class="nav-item">
             <a routerLink="/register" class="nav-link">Register</a>
           </li>
-          <li *ngIf="!email" class="nav-item">
+          <li *ngIf="showRegister" class="nav-item">
             <a routerLink="/login" class="nav-link">Login</a>
           </li>
           <li *ngIf="email" class="nav-item">
