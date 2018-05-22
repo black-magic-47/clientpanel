@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../../models/client';
 import { ClientService } from '../../services/client.service';
-import {SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 
 @Component({
@@ -26,7 +26,8 @@ export class ClientDetailsComponent implements OnInit {
   pauseHover = true;
   titleMaxLength = 15;
   bodyMaxLength = 80;
-  constructor(private route: ActivatedRoute, private snotifyService: SnotifyService, private clientService: ClientService) { }
+  constructor(private router: Router, private route: ActivatedRoute,
+    private snotifyService: SnotifyService, private clientService: ClientService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -39,6 +40,7 @@ export class ClientDetailsComponent implements OnInit {
       }
     });
   }
+
   getConfig(): SnotifyToastConfig {
     this.snotifyService.setDefaults({
       global: {
@@ -59,4 +61,17 @@ export class ClientDetailsComponent implements OnInit {
     };
   }
 
+  updateBalance = () => {
+    this.clientService.updateClient(this.client);
+    this.snotifyService.success('Balance Updated', this.getConfig());
+    this.showBalanceUpdateInput = false;
+  }
+
+  onDeleteClick = () => {
+    if (confirm('Are You Sure?')) {
+      this.clientService.deleteClient(this.client);
+      this.snotifyService.success('User Deleted', this.getConfig());
+      this.router.navigate(['/']);
+    }
+  }
 }
