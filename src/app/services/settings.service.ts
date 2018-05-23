@@ -30,4 +30,8 @@ export class SettingsService {
     return this.settings;
   }
 
+  updateSetting = (value: Setting) => {
+    this.afs.doc<Setting>(`settings/${value.id}`).update(value);
+  }
+
 }
