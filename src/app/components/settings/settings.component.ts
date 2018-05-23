@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Setting } from '../../models/setting';
 import { SettingsService } from '../../services/settings.service';
-import { SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,19 +13,7 @@ export class SettingsComponent implements OnInit {
   disableBalanceOnAdd: Setting;
   disableBalanceOnEdit: Setting;
 
-  timeout = 3000;
-  position: SnotifyPosition = SnotifyPosition.rightBottom;
-  progressBar = true;
-  closeClick = true;
-  newTop = true;
-  backdrop = -1;
-  dockMax = 8;
-  blockMax = 6;
-  pauseHover = true;
-  titleMaxLength = 15;
-  bodyMaxLength = 80;
-
-  constructor(private settingService: SettingsService, private snotifyService: SnotifyService) { }
+  constructor(private settingService: SettingsService, private notification: NotificationService) { }
 
   ngOnInit() {
     this.settingService.getSettings().subscribe(result => {
@@ -43,30 +31,9 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  getConfig(): SnotifyToastConfig {
-    this.snotifyService.setDefaults({
-      global: {
-        newOnTop: this.newTop,
-        maxAtPosition: this.blockMax,
-        maxOnScreen: this.dockMax,
-      }
-    });
-    return {
-      bodyMaxLength: this.bodyMaxLength,
-      titleMaxLength: this.titleMaxLength,
-      backdrop: this.backdrop,
-      position: this.position,
-      timeout: this.timeout,
-      showProgressBar: this.progressBar,
-      closeOnClick: this.closeClick,
-      pauseOnHover: this.pauseHover
-    };
-  }
-
-
   onChange = (setting: Setting) => {
     setting.value = !setting.value;
     this.settingService.updateSetting(setting);
-    this.snotifyService.success('Settings Updated', this.getConfig());
+    this.notification.success('Settings Updated');
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../../models/client';
 import { ClientService } from '../../services/client.service';
-import { SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
+import { NotificationService } from '../../services/notification.service';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 
 @Component({
@@ -15,19 +15,8 @@ export class ClientDetailsComponent implements OnInit {
   hasBalance: Boolean = false;
   showBalanceUpdateInput: Boolean = false;
 
-  timeout = 3000;
-  position: SnotifyPosition = SnotifyPosition.rightBottom;
-  progressBar = true;
-  closeClick = true;
-  newTop = true;
-  backdrop = -1;
-  dockMax = 8;
-  blockMax = 6;
-  pauseHover = true;
-  titleMaxLength = 15;
-  bodyMaxLength = 80;
   constructor(private router: Router, private route: ActivatedRoute,
-    private snotifyService: SnotifyService, private clientService: ClientService) { }
+    private notification: NotificationService, private clientService: ClientService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -41,36 +30,16 @@ export class ClientDetailsComponent implements OnInit {
     });
   }
 
-  getConfig(): SnotifyToastConfig {
-    this.snotifyService.setDefaults({
-      global: {
-        newOnTop: this.newTop,
-        maxAtPosition: this.blockMax,
-        maxOnScreen: this.dockMax,
-      }
-    });
-    return {
-      bodyMaxLength: this.bodyMaxLength,
-      titleMaxLength: this.titleMaxLength,
-      backdrop: this.backdrop,
-      position: this.position,
-      timeout: this.timeout,
-      showProgressBar: this.progressBar,
-      closeOnClick: this.closeClick,
-      pauseOnHover: this.pauseHover
-    };
-  }
-
   updateBalance = () => {
     this.clientService.updateClient(this.client);
-    this.snotifyService.success('Balance Updated', this.getConfig());
+    this.notification.success('Balance Updated');
     this.showBalanceUpdateInput = false;
   }
 
   onDeleteClick = () => {
     if (confirm('Are You Sure?')) {
       this.clientService.deleteClient(this.client);
-      this.snotifyService.success('User Deleted', this.getConfig());
+      this.notification.success('User Deleted');
       this.router.navigate(['/']);
     }
   }

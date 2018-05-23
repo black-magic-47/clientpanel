@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { SnotifyService, SnotifyPosition, SnotifyToastConfig} from 'ng-snotify';
+import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,49 +12,17 @@ export class RegisterComponent implements OnInit {
   email: string;
   password: string;
 
-  timeout = 3000;
-  position: SnotifyPosition = SnotifyPosition.rightBottom;
-  progressBar = true;
-  closeClick = true;
-  newTop = true;
-  backdrop = -1;
-  dockMax = 8;
-  blockMax = 6;
-  pauseHover = true;
-  titleMaxLength = 15;
-  bodyMaxLength = 80;
-
-  constructor(private auth: AuthService, private router: Router, private snotifyService: SnotifyService) { }
+  constructor(private auth: AuthService, private router: Router, private notification: NotificationService) { }
 
   ngOnInit() {
   }
 
-  getConfig(): SnotifyToastConfig {
-    this.snotifyService.setDefaults({
-      global: {
-        newOnTop: this.newTop,
-        maxAtPosition: this.blockMax,
-        maxOnScreen: this.dockMax,
-      }
-    });
-    return {
-      bodyMaxLength: this.bodyMaxLength,
-      titleMaxLength: this.titleMaxLength,
-      backdrop: this.backdrop,
-      position: this.position,
-      timeout: this.timeout,
-      showProgressBar: this.progressBar,
-      closeOnClick: this.closeClick,
-      pauseOnHover: this.pauseHover
-    };
-  }
-
   onSubmit = () => {
     this.auth.register(this.email, this.password).then(result => {
-      this.snotifyService.success('You are now registered and logged in', this.getConfig());
+      this.notification.success('You are now registered and logged in');
       this.router.navigate(['/']);
     }).catch( err => {
-      this.snotifyService.error(err.message, this.getConfig());
+      this.notification.error(err.message);
     });
   }
 

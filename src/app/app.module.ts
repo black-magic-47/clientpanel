@@ -23,6 +23,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ClientService } from './services/client.service';
 import { AuthService } from './services/auth.service';
 import { SettingsService } from './services/settings.service';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { SettingsService } from './services/settings.service';
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
     SnotifyService,
     AuthService,
-    SettingsService
+    SettingsService,
+    NotificationService
   ],
   bootstrap: [AppComponent]
 })
